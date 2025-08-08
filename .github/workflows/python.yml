@@ -24,6 +24,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
 
-    - name: Run unit tests
+    - name: Run unit tests (skip if none found)
       run: |
-        pytest
+        if ls test_*.py 1> /dev/null 2>&1 || ls *_test.py 1> /dev/null 2>&1 || [ -d tests ]; then
+          pytest
+        else
+          echo "No tests found. Skipping pytest."
+        fi
